@@ -19,26 +19,56 @@ if(isset($_POST['add'])){
     echo "<p>Member login created successfully</p>";
 }
 
-$members=$pdo->query("SELECT * FROM users WHERE role='member'")->fetchAll();
+$members = $pdo->query("
+  SELECT u.name, u.email, m.type, m.expiry_date
+  FROM users u
+  LEFT JOIN memberships m ON u.id = m.user_id
+  WHERE u.role='member'
+")->fetchAll();
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+</head>
+<body>
+    <div class="card">
+      <h2>Create Member Login</h2>
 
-<h2>Create Member Login</h2>
-<form method="post">
-<input name="name" placeholder="Full Name" required>
-<input type="email" name="email" placeholder="Email (Login ID)" required>
-<input type="password" name="password" placeholder="Password" required>
-<button name="add">Create Member</button>
-</form>
+      <form method="post">
+        <input name="name" placeholder="Full Name">
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password">
+        <button>Create Member</button>
+      </form>
+</div>
 
-<h3>Existing Members</h3>
-<table border="1">
-<tr><th>Name</th><th>Email</th></tr>
+
+<div class="card">
+<h2>Existing Members</h2>
+
+<table>
+<tr>
+  <th>Name</th>
+  <th>Email</th>
+  <th>Membership</th>
+  <th>Expiry</th>
+</tr>
+
 <?php foreach($members as $m): ?>
 <tr>
-<td><?=htmlspecialchars($m['name'])?></td>
-<td><?=htmlspecialchars($m['email'])?></td>
+  <td><?=htmlspecialchars($m['name'])?></td>
+  <td><?=htmlspecialchars($m['email'])?></td>
+  <td><?= $m['type'] ?? 'Not Assigned' ?></td>
+  <td><?= $m['expiry_date'] ?? '-' ?></td>
 </tr>
-<?php endforeach ?>
+<?php endforeach; ?>
 </table>
+</div>
+
+</body>
+</html>
 
 <?php include '../includes/footer.php'; ?>

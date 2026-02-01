@@ -5,36 +5,91 @@ include '../includes/header.php';
 
 if($_SESSION['user']['role']!='manager') die("Access denied");
 
-if($_POST){
-    $pdo->prepare(
-      "INSERT INTO attendance(user_id,date,status) VALUES(?,?,?)"
-    )->execute([
-        $_POST['user'],
-        date('Y-m-d'),
-        $_POST['status']
-    ]);
+// Members dropdown
+$users = $pdo->query("SELECT id, name FROM users WHERE role='member' ORDER BY name")->fetchAll();
+
+// SAVE attendance
+$message = "";
+
+if(isset($_POST['submit'])){
+    $user_id = $_POST['user'];
+    $status  = $_POST['status'];
+    $date    = $_POST['date'];
+
+    // prevent duplicates (same member same day)
+    $check = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE user_id=? AND date=?");
+    $check->execute([$user_id, $date]);
+
+    if($check->fetchColumn() > 0){
+        $message = "<p style='color:red;font-weight:bold;'>Attendance already marked for this member on this date.</p>";
+    } else {
+        $stmt = $pdo->prepare("INSERT INTO attendance (user_id, date, status) VALUES (?, ?, ?)");
+        $stmt->execute([$user_id, $date, $status]);
+        $message = "<p style='color:green;font-weight:bold;'>Attendance saved successfully.</p>";
+    }
 }
 
-$users=$pdo->query("SELECT * FROM users WHERE role='member'")->fetchAll();
-$records=$pdo->query("SELECT * FROM attendance")->fetchAll();
+// Attendance records with member names
+$records = $pdo->query("
+  SELECT a.date, a.status, u.name
+  FROM attendance a
+  JOIN users u ON a.user_id = u.id
+  WHERE u.role='member'
+  ORDER BY a.date DESC
+")->fetchAll();
 ?>
-<h2>Attendance</h2>
 
-<form method="post">
-<select name="user" onchange="checkMembership(this.value)">
-<?php foreach($users as $u): ?>
-<option value="<?=$u['id']?>"><?=$u['name']?></option>
-<?php endforeach ?>
-</select>
+<div class="card">
+  <h2>Mark Attendance</h2>
 
-<p id="status"></p>
-<button>Save</button>
-</form>
+  <?= $message ?>
 
-<ul>
-<?php foreach($records as $r): ?>
-<li>User <?=$r['user_id']?> - <?=$r['status']?></li>
-<?php endforeach ?>
-</ul>
+  <form method="post">
+    <label>Select Member</label>
+    <select name="user" onchange="checkMembership(this.value)" required>
+      <option value="">-- Select Member --</option>
+      <?php foreach($users as $u): ?>
+        <option value="<?=$u['id']?>"><?=htmlspecialchars($u['name'])?></option>
+      <?php endforeach; ?>
+    </select>
 
+    <p id="status" style="margin:6px 0; font-weight:bold;"></p>
+
+    <label>Date</label>
+    <input type="date" name="date" value="<?=date('Y-m-d')?>" required>
+
+    <label>Status</label>
+    <select name="status" required>
+      <option value="Present">Present</option>
+      <option value="Absent">Absent</option>
+    </select>
+
+    <button type="submit" name="submit">Save Attendance</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Attendance Records</h2>
+  <table>
+    <tr>
+      <th>Member Name</th>
+      <th>Date</th>
+      <th>Status</th>
+    </tr>
+
+    <?php if(count($records)==0): ?>
+      <tr><td colspan="3">No attendance records yet.</td></tr>
+    <?php endif; ?>
+
+    <?php foreach($records as $r): ?>
+    <tr>
+      <td><?= htmlspecialchars($r['name']) ?></td>
+      <td><?= htmlspecialchars($r['date']) ?></td>
+      <td><?= htmlspecialchars($r['status']) ?></td>
+    </tr>
+    <?php endforeach; ?>
+  </table>
+</div>
+
+<script src="../assets/js/app.js"></script>
 <?php include '../includes/footer.php'; ?>

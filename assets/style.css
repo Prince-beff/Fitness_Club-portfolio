@@ -1,91 +1,106 @@
 * {
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 body {
-    background: #f4f6f9;
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  background: #f4f6f9;
 }
 
-h1 {
-    background: #1e88e5;
-    color: white;
-    padding: 15px;
-    margin: 0;
-    text-align: center;
+/* NAVBAR */
+.navbar {
+  background: #1e88e5;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-h2, h3 {
-    color: #333;
+.logo {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-a {
-    text-decoration: none;
-    color: #1e88e5;
-    font-weight: bold;
+.nav-links a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-a:hover {
-    text-decoration: underline;
+.nav-links a:hover {
+  text-decoration: underline;
 }
 
+.logout {
+  background: #e53935;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+/* MAIN CONTAINER */
 .container {
-    width: 80%;
-    margin: 20px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
+  width: 85%;
+  margin: 30px auto;
 }
 
-/* Forms */
-form input, form select, form textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
+/* CARDS */
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 6px;
+  margin-bottom: 25px;
 }
 
-form button {
-    background: #1e88e5;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 4px;
+/* HEADINGS */
+h2 {
+  margin-top: 0;
+  color: #333;
 }
 
-form button:hover {
-    background: #1565c0;
+/* FORMS */
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
 }
 
-/* Tables */
+button {
+  background: #1e88e5;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1565c0;
+}
+
+/* TABLES */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
 }
 
-table th, table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
 }
 
-table th {
-    background: #f1f1f1;
+th {
+  background: #f1f1f1;
 }
 
-/* Status */
-#status {
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-/* Footer */
+/* FOOTER */
 footer {
-    background: #222;
-    color: #aaa;
-    text-align: center;
-    padding: 10px;
-    margin-top: 30px;
+  background: #222;
+  color: #bbb;
+  text-align: center;
+  padding: 15px;
 }

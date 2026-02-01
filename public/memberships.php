@@ -50,33 +50,34 @@ $memberships=$pdo->query(
   JOIN users u ON m.user_id=u.id"
 )->fetchAll();
 ?>
+<div class="card">
+    <h2>Manage Memberships</h2>
 
-<h2>Manage Memberships</h2>
+    <form method="post">
+        <input type="hidden" name="id" value="<?= $edit['id'] ?? '' ?>">
 
-<form method="post">
-<input type="hidden" name="id" value="<?= $edit['id'] ?? '' ?>">
+        <select name="user" required>
+        <?php foreach($users as $u): ?>
+        <option value="<?=$u['id']?>" 
+        <?=isset($edit)&&$edit['user_id']==$u['id']?'selected':''?>>
+        <?=$u['name']?>
+        </option>
+        <?php endforeach ?>
+        </select>
 
-<select name="user" required>
-<?php foreach($users as $u): ?>
-<option value="<?=$u['id']?>" 
-<?=isset($edit)&&$edit['user_id']==$u['id']?'selected':''?>>
-<?=$u['name']?>
-</option>
-<?php endforeach ?>
-</select>
+        <select name="type">
+        <option <?=($edit['type']??'')=='Monthly'?'selected':''?>>Monthly</option>
+        <option <?=($edit['type']??'')=='Quarterly'?'selected':''?>>Quarterly</option>
+        <option <?=($edit['type']??'')=='Yearly'?'selected':''?>>Yearly</option>
+        </select>
 
-<select name="type">
-<option <?=($edit['type']??'')=='Monthly'?'selected':''?>>Monthly</option>
-<option <?=($edit['type']??'')=='Quarterly'?'selected':''?>>Quarterly</option>
-<option <?=($edit['type']??'')=='Yearly'?'selected':''?>>Yearly</option>
-</select>
+        <input type="date" name="start" value="<?= $edit['start_date'] ?? '' ?>" required>
+        <input type="date" name="expiry" value="<?= $edit['expiry_date'] ?? '' ?>" required>
 
-<input type="date" name="start" value="<?= $edit['start_date'] ?? '' ?>" required>
-<input type="date" name="expiry" value="<?= $edit['expiry_date'] ?? '' ?>" required>
-
-<button name="save">Save Membership</button>
-</form>
-
+        <button name="save">Save Membership</button>
+    </form>
+</div>
+<div class="card">
 <table>
 <tr>
 <th>Member</th><th>Type</th><th>Expiry</th><th>Action</th>
@@ -93,5 +94,6 @@ $memberships=$pdo->query(
 </tr>
 <?php endforeach ?>
 </table>
+</div>
 
 <?php include '../includes/footer.php'; ?>

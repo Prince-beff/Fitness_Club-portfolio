@@ -19,6 +19,7 @@ if($_POST){
 $members=$pdo->query("SELECT * FROM users WHERE role='member'")->fetchAll();
 $plans=$pdo->query("SELECT * FROM workout_plans")->fetchAll();
 ?>
+<div class="card">
 <h2>Workout Plans</h2>
 
 <form method="post">
@@ -30,6 +31,7 @@ $plans=$pdo->query("SELECT * FROM workout_plans")->fetchAll();
 <textarea name="plan" required></textarea><br>
 <button>Add</button>
 </form>
+</div>
 
 <ul>
 <?php foreach($plans as $p): ?>
