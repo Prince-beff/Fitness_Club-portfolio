@@ -41,12 +41,7 @@ $members = $pdo->query("
         <input name="name" placeholder="Full Name">
         <input type="email" name="email" placeholder="Email">
         <input type="password" name="password" placeholder="Password">
-<<<<<<< HEAD
-        <button>Create Member</button>
-=======
         <button type="submit" name="add">Create Member</button>
-
->>>>>>> 7519974 (finished)
       </form>
 </div>
 
