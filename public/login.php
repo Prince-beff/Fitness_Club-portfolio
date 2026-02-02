@@ -28,14 +28,19 @@ if($_POST){
     <link rel="stylesheet" type="text/css" href="../assets/style.css">
 </head>
 <body>
-    <div class="container" style="max-width:400px;">
-<h2>Login</h2>
-<form method="post">
-<input type="email" name="email" placeholder="Email" required>
-<input type="password" name="password" placeholder="Password" required>
-<button>Login</button>
-</form>
-<p style="color:red"><?= $error ?? '' ?></p>
-</div>
+  <div class="login-page">
+    <div class="login-box">
+      <h2>Login</h2>
+
+      <form method="post">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+      </form>
+
+      <p class="login-error"><?= $error ?? '' ?></p>
+    </div>
+  </div>
 </body>
+
 </html>
