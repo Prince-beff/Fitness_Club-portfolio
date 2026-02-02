@@ -68,35 +68,7 @@ $memberships = $pdo->query(
      JOIN users u ON m.user_id = u.id"
 )->fetchAll();
 ?>
-<div class="card">
-    <h2>Manage Memberships</h2>
 
-<<<<<<< HEAD
-    <form method="post">
-        <input type="hidden" name="id" value="<?= $edit['id'] ?? '' ?>">
-
-        <select name="user" required>
-        <?php foreach($users as $u): ?>
-        <option value="<?=$u['id']?>" 
-        <?=isset($edit)&&$edit['user_id']==$u['id']?'selected':''?>>
-        <?=$u['name']?>
-        </option>
-        <?php endforeach ?>
-        </select>
-
-        <select name="type">
-        <option <?=($edit['type']??'')=='Monthly'?'selected':''?>>Monthly</option>
-        <option <?=($edit['type']??'')=='Quarterly'?'selected':''?>>Quarterly</option>
-        <option <?=($edit['type']??'')=='Yearly'?'selected':''?>>Yearly</option>
-        </select>
-
-        <input type="date" name="start" value="<?= $edit['start_date'] ?? '' ?>" required>
-        <input type="date" name="expiry" value="<?= $edit['expiry_date'] ?? '' ?>" required>
-
-        <button name="save">Save Membership</button>
-    </form>
-</div>
-=======
 <div class="card">
     <h2>Manage Memberships</h2>
 
@@ -126,7 +98,6 @@ $memberships = $pdo->query(
     </form>
 </div>
 
->>>>>>> 7519974 (finished)
 <div class="card">
 <table>
 <tr>
